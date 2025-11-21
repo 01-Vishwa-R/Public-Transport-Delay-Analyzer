@@ -1,0 +1,37 @@
+import csv 
+from datetime import datetime
+
+Data_file = 'data/delay_data.csv'
+
+# Creating the First option of adding entry to the CSV file
+def add_entry():
+    print("/n Add New Delay Entry")
+    date_input = input("Enter date (YYYY-MM-DD) or press Enter for today: ").strip()
+    if date_input == "":
+        date_input = datetime.today().strftime("%Y-%m-%d")
+
+    # Bus Details Input
+    bus_number = input("Enter bus number: ").strip()
+    source = input("Enter source location: ").strip()
+    destination = input("Enter destination location: ").strip()
+
+    # time Inputs
+    scheduled_time = input('Enter the scheduled arrival time (HH:MM):').strip()
+    actual_time = input('Enter the actual arrival time (HH:MM):').strip()
+
+    # Conversion of time from the given format to numbers
+    sh, sm = map(int, scheduled_time.split(":"))
+    ah, am = map(int, actual_time.split(":"))
+
+    scheduled_minutes = sh * 60 + sm
+    actual_minutes = ah * 60 + am
+
+    delay = max(0 , actual_minutes - scheduled_minutes)
+
+    #Finally writing the data to the CSV file
+    with open(Data_file, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([date_input, bus_number, source, destination, scheduled_time, actual_time, delay])
+    print("Entry added successfully!")
+    print(f"Total Delay: {delay} minutes")
+
