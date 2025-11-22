@@ -46,12 +46,46 @@ def view_entries():
             print("-" * 80)
 
             next(reader)
-            
+
             # reading data from file
             found = False
             for row in reader:
                 found = True
                 date, bus, src, dst, scheduled, actual, delay = row
                 print(f"{date:10}  {bus:5}  {src:10} → {dst:12}  {scheduled:8}  {actual:6}  {delay} mins")
+    
     except FileNotFoundError:
         print("No data found, add some entries")
+
+
+# Another function to analyze the given data
+
+def analyze_data():
+    print("\n Delay Statistics")
+    delay = []
+    try:
+        with open(DATA_FILE, "r") as file:
+            reader = csv.reader(file)
+            next(reader)
+
+            for row in reader:
+                delay.append(int(row[6]))
+    except FileNotFoundError:
+        print("No data found, add some entries")
+
+    #calculating everything
+    avg_delay = sum(delay) / len(delay) 
+    max_delay = max(delay)
+    min_delay = min(delay)
+    on_time = delay.count(0)
+    late_in_days = len(delay) - on_time
+
+    # printing the stats
+    print(f"\nTotal Records: {len(delays)}")
+    print(f"Average Delay: {avg_delay:.2f} minutes")
+    print(f"Maximum Delay: {max_delay} minutes")
+    print(f"Minimum Delay: {min_delay} minutes")
+    print(f"On-Time Days: {on_time}")
+    print(f"Late Days: {late_days}\n")
+
+  #
