@@ -65,7 +65,7 @@ text
 
 ## How to Run
 
-python your_script_name.py
+python delay_analyzer.py
 
 text
 
