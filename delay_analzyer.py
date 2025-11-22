@@ -3,17 +3,17 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import os
 
+Data_file = 'data/delay_data.csv'
+
 def initialize_csv():
     if not os.path.exists("data"):
         os.makedirs("data")
 
-    if not os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "w", newline="") as file:
+    if not os.path.exists(Data_file):
+        with open(Data_file, "w", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(["date", "bus_number", "source", "destination",
                              "scheduled_time", "actual_time", "delay"])
-
-Data_file = 'data/delay_data.csv'
 
 # Creating the First option of adding entry to the CSV file
 def add_entry():
@@ -53,6 +53,7 @@ def view_entries():
     print("\n All bus delay records")
     try:
         with open(Data_file, mode='r') as file:
+            reader = csv.reader(file)
             # format for displaying the data
             print("\nDate        Bus  Source → Destination        Scheduled  Actual   Delay")
             print("-" * 80)
@@ -76,7 +77,7 @@ def analyze_data():
     print("\n Delay Statistics")
     delay = []
     try:
-        with open(DATA_FILE, "r") as file:
+        with open(Data_file, "r") as file:
             reader = csv.reader(file)
             next(reader)
 
@@ -93,12 +94,12 @@ def analyze_data():
     late_in_days = len(delay) - on_time
 
     # printing the stats
-    print(f"\nTotal Records: {len(delays)}")
+    print(f"\nTotal Records: {len(delay)}")
     print(f"Average Delay: {avg_delay:.2f} minutes")
     print(f"Maximum Delay: {max_delay} minutes")
     print(f"Minimum Delay: {min_delay} minutes")
     print(f"On-Time Days: {on_time}")
-    print(f"Late Days: {late_days}\n")
+    print(f"Late Days: {late_in_days}\n")
 
 #Visually representing the data using graphs
 
@@ -108,10 +109,12 @@ def data_graph():
     bus_number = input("\n Enter the bus number to get the graph: ")
     delays = []
     dates = []
+    scheduled_times = []
+    actual_times = []
     sample_set_days = datetime.today() - timedelta(days=30)
 
     try:
-        with open(DATA_FILE, "r") as file:
+        with open(Data_file, "r") as file:
             reader = csv.reader(file)
             next(reader)
 
@@ -120,7 +123,7 @@ def data_graph():
                 if bus != bus_number:
                     continue  # ignore other buses
                 entry_date = datetime.strptime(date_str, "%Y-%m-%d")
-                if entry_date >= cutoff_date:
+                if entry_date >= sample_set_days:
                         sh, sm = map(int, scheduled.split(":"))
                         ah, am = map(int, actual.split(":"))
 
@@ -129,9 +132,10 @@ def data_graph():
 
                         dates.append(date_str)
                         scheduled_times.append(scheduled_minutes)
-                        actual_times.append(actual_minutes)  if entry_date < sample_set_days:
-                        dates.append(date_str)
-                        delays.append(int(delay))
+                        actual_times.append(actual_minutes)  
+                        if entry_date < sample_set_days:
+                            dates.append(date_str)
+                            delays.append(int(delay))
 
     except FileNotFoundError:
         print("No data found, add some entries")
@@ -159,3 +163,32 @@ def data_graph():
     plt.tight_layout()
     plt.show()
 
+#Main Menu function to call all other functions
+
+def main_menu():    
+    initialize_csv     
+    while True:
+            print("\n==============================")
+            print(" Public Transport Delay Analyzer")
+            print("==============================")
+            print("1. Add Bus Delay Entry")
+            print("2. View All Entries")
+            print("3. Analyze Delay Statistics")
+            print("4. Monthly Delay Graph")
+            print("5. Exit")
+
+            choice = input("\nEnter choice: ")
+
+            if choice == "1":
+                add_entry()
+            elif choice == "2":
+                view_entries()
+            elif choice == "3":
+                analyze_statistics()
+            elif choice == "4":
+                monthly_graph()
+            elif choice == "5":
+                print("\nExiting program...\n")
+                break
+            else:
+                print("Invalid choice. Try again.")
