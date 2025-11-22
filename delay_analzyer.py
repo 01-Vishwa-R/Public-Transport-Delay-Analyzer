@@ -140,11 +140,6 @@ def data_graph():
     except FileNotFoundError:
         print("No data found, add some entries")
         return
-    
-    if len(dates) <= 29:
-        print("Not enough data to plot graph (need at least 30 days of data).")
-        return
-
     if len(dates) == 0:
         print(f"No data found for bus number {bus_number}.")
         return
