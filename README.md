@@ -38,6 +38,7 @@ Entries are stored in a CSV file, and statistics or monthly trends can be plotte
 1. **Clone the Repository**
 
 git clone https://github.com/01-Vishwa-R/Vityarthi-project
+
 cd Vityarthi-project
 
 text
