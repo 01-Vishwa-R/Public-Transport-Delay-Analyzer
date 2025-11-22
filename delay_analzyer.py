@@ -144,7 +144,7 @@ def data_graph():
     if len(dates) <= 29:
         print("Not enough data to plot graph (need at least 30 days of data).")
         return
-    
+
     if len(dates) == 0:
         print(f"No data found for bus number {bus_number}.")
         return
@@ -166,7 +166,7 @@ def data_graph():
 #Main Menu function to call all other functions
 
 def main_menu():    
-    initialize_csv     
+    initialize_csv()     
     while True:
             print("\n==============================")
             print(" Public Transport Delay Analyzer")
