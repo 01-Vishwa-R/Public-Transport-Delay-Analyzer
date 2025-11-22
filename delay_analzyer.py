@@ -1,6 +1,17 @@
 import csv 
-from datetime import datetime
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
+import os
+
+def initialize_csv():
+    if not os.path.exists("data"):
+        os.makedirs("data")
+
+    if not os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["date", "bus_number", "source", "destination",
+                             "scheduled_time", "actual_time", "delay"])
 
 Data_file = 'data/delay_data.csv'
 
