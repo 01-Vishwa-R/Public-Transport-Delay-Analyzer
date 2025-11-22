@@ -35,18 +35,23 @@ def add_entry():
     print("Entry added successfully!")
     print(f"Total Delay: {delay} minutes")
 
-# Viewing the entries
+# viewing the entries
 
 def view_entries():
     print("\n All bus delay records")
-    with open(Data_file, mode='r') as file:
-        print("\nDate        Bus  Source → Destination        Scheduled  Actual   Delay")
-        print("-" * 80)
+    try:
+        with open(Data_file, mode='r') as file:
+            # format for displaying the data
+            print("\nDate        Bus  Source → Destination        Scheduled  Actual   Delay")
+            print("-" * 80)
 
-        next(reader)
-
-        found = False
-        for row in reader:
-            found = True
-            date, bus, src, dst, scheduled, actual, delay = row
-            print(f"{date:10}  {bus:5}  {src:10} → {dst:12}  {scheduled:8}  {actual:6}  {delay} mins")
+            next(reader)
+            
+            # reading data from file
+            found = False
+            for row in reader:
+                found = True
+                date, bus, src, dst, scheduled, actual, delay = row
+                print(f"{date:10}  {bus:5}  {src:10} → {dst:12}  {scheduled:8}  {actual:6}  {delay} mins")
+    except FileNotFoundError:
+        print("No data found, add some entries")
