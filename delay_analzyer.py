@@ -1,5 +1,6 @@
 import csv 
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 Data_file = 'data/delay_data.csv'
 
@@ -88,4 +89,62 @@ def analyze_data():
     print(f"On-Time Days: {on_time}")
     print(f"Late Days: {late_days}\n")
 
-  #
+#Visually representing the data using graphs
+
+def data_graph():
+    print("\n Bus Delay Graph")
+    print("")
+    bus_number = input("\n Enter the bus number to get the graph: ")
+    delays = []
+    dates = []
+    sample_set_days = datetime.today() - timedelta(days=30)
+
+    try:
+        with open(DATA_FILE, "r") as file:
+            reader = csv.reader(file)
+            next(reader)
+
+            for row in reader:
+                date_str, bus, src, dst, scheduled, actual, delay = row
+                if bus != bus_number:
+                    continue  # ignore other buses
+                entry_date = datetime.strptime(date_str, "%Y-%m-%d")
+                if entry_date >= cutoff_date:
+                        sh, sm = map(int, scheduled.split(":"))
+                        ah, am = map(int, actual.split(":"))
+
+                        scheduled_minutes = sh * 60 + sm
+                        actual_minutes = ah * 60 + am
+
+                        dates.append(date_str)
+                        scheduled_times.append(scheduled_minutes)
+                        actual_times.append(actual_minutes)  if entry_date < sample_set_days:
+                        dates.append(date_str)
+                        delays.append(int(delay))
+
+    except FileNotFoundError:
+        print("No data found, add some entries")
+        return
+    
+    if len(dates) <= 29:
+        print("Not enough data to plot graph (need at least 30 days of data).")
+        return
+    
+    if len(dates) == 0:
+        print(f"No data found for bus number {bus_number}.")
+        return
+    
+    # plotting the graph
+    plt.figure(figsize=(11, 5))
+
+    plt.plot(dates, scheduled_times, marker='o', label="Scheduled Time")
+    plt.plot(dates, actual_times, marker='o', label="Actual Arrival Time")
+
+    plt.xlabel("Date")
+    plt.ylabel("Time (Minutes after midnight)")
+    plt.title(f"Scheduled vs Actual Arrival Time - Bus {bus_number}")
+    plt.xticks(rotation=45)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
