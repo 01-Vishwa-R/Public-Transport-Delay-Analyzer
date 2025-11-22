@@ -184,11 +184,13 @@ def main_menu():
             elif choice == "2":
                 view_entries()
             elif choice == "3":
-                analyze_statistics()
+                analyze_data()
             elif choice == "4":
-                monthly_graph()
+                data_graph()
             elif choice == "5":
                 print("\nExiting program...\n")
                 break
             else:
                 print("Invalid choice. Try again.")
+
+main_menu()
