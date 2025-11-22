@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import os
 
-Data_file = 'data/delay_data.csv'
+Data_file = 'data/delay_log.csv'
 
 def initialize_csv():
     if not os.path.exists("data"):
