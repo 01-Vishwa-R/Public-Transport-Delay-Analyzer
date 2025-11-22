@@ -23,7 +23,7 @@ Entries are stored in a CSV file, and statistics or monthly trends can be plotte
 
 ## Technologies and Tools Used
 
-- **Programming Language:** Python 3.x
+- **Programming Language:** Python 3.11
 - **Libraries:**  
   - `csv` (data storage)  
   - `datetime` (date handling)  
@@ -37,11 +37,9 @@ Entries are stored in a CSV file, and statistics or monthly trends can be plotte
 
 1. **Clone the Repository**
 
-git clone https://github.com/01-Vishwa-R/Vityarthi-project
+git clone https://github.com/01-Vishwa-R/Public-Transport-Delay-Analyzer
 
-cd Vityarthi-project
-
-text
+cd Public-Transport-Delay-Analyzer
 
 2. **Set Up the Environment**
 
@@ -66,8 +64,6 @@ text
 ## How to Run
 
 python delay_analyzer.py
-
-text
 
 Follow the menu prompts to add, view, analyze, or plot bus delay data.
 
